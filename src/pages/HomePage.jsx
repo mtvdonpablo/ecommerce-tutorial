@@ -2,21 +2,26 @@ import "./HomePage.css";
 import Header from "../components/Header";
 import ProductContainer from "../components/ProductContainer";
 import axios from "axios";
-import { useEffect,useState } from "react";
+import { useEffect, useState } from "react";
 
 function HomePage() {
-  const [products,setProducts] = useState([]);
+  const [products, setProducts] = useState([]);
+  const [cart, setCart] = useState([]);
   useEffect(() => {
     axios.get("http://localhost:3000/api/products").then((response) => {
       console.log(response.data);
       setProducts(response.data);
     });
-  },[]); //empty array means it only loads once, strict mode runs useeffect twice which only occurs during development
+
+    axios.get("http://localhost:3000/api/cart-items").then((response) => {
+      setCart(response.data);
+    });
+  }, []); //empty array means it only loads once, strict mode runs useeffect twice which only occurs during development
 
   return (
     <>
       <title>Ecommerce Project</title>
-      <Header />
+      <Header cart={cart} />
 
       <div className="home-page">
         <div className="products-grid">
