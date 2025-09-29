@@ -1,15 +1,17 @@
-
 import "./HomePage.css";
 import Header from "../components/Header";
-import { products } from "../starting-code/data/products";
 import ProductContainer from "../components/ProductContainer";
-import axios from 'axios';
-
+import axios from "axios";
+import { useEffect,useState } from "react";
 
 function HomePage() {
-  axios.get('http://localhost:3000/api/products').then((response)=>{
-    console.log(response.data)
-  })
+  const [products,setProducts] = useState([]);
+  useEffect(() => {
+    axios.get("http://localhost:3000/api/products").then((response) => {
+      console.log(response.data);
+      setProducts(response.data);
+    });
+  },[]); //empty array means it only loads once, strict mode runs useeffect twice which only occurs during development
 
   return (
     <>
@@ -18,21 +20,16 @@ function HomePage() {
 
       <div className="home-page">
         <div className="products-grid">
-          {products.map((product)=>(
-            
-              <ProductContainer 
-              key = {product.id}
+          {products.map((product) => (
+            <ProductContainer
+              key={product.id}
               imgLink={product.image}
               name={product.name}
               rating={product.rating.stars}
-              ratingCount= {product.rating.count}
+              ratingCount={product.rating.count}
               priceCents={product.priceCents}
-              />
-            
+            />
           ))}
-
-
-
         </div>
       </div>
     </>
