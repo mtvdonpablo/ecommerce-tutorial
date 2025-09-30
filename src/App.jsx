@@ -9,7 +9,7 @@ import axios from "axios";
 function App() {
   const [cart, setCart] = useState([]);
   useEffect(() => {
-    axios.get("/api/cart-items").then((response) => {
+    axios.get("/api/cart-items?expand=product").then((response) => {
       setCart(response.data);
     });
   }, []); //empty array means it only loads once, strict mode runs useeffect twice which only occurs during development
